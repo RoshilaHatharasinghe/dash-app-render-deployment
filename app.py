@@ -1,6 +1,4 @@
 # Import relevant libraries
-import dash_html_components as html
-import dash_core_components as dcc
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -42,99 +40,80 @@ logreg_model.fit(X_train, y_train)
 app = dash.Dash(__name__)
 server = app.server
 
-
-app = dash.Dash(__name__)
-
 # Define the layout of the dashboard
-app.layout = html.Div(
-    style={'text-align': 'center'},
-    children=[
+column_names = ['Fixed Acidity', 'Volatile Acidity', 'Citric Acid', 'Residual Sugar', 'Chlorides', 'Free Sulfur Dioxide',
+                'Total Sulfur Dioxide', 'Density', 'pH', 'Sulphates', 'Alcohol']
 
+app.layout = html.Div(
+    children=[
         html.H1('CO544-2023 Lab 3: Wine Quality Prediction'),
 
-        html.Div(
-            style={'display': 'inline-block',
-                   'text-align': 'left', 'width': '30%'},
-            children=[
-                html.H3('Exploratory Data Analysis'),
-                html.Label('Feature 1 (X-axis)'),
-                dcc.Dropdown(
-                    id='x_feature',
-                    options=[{'label': col, 'value': col}
-                             for col in data.columns],
-                    value=data.columns[0]
-                ),
-                html.Label('Feature 2 (Y-axis)'),
-                dcc.Dropdown(
-                    id='y_feature',
-                    options=[{'label': col, 'value': col}
-                             for col in data.columns],
-                    value=data.columns[1]
-                ),
-            ],
-        ),
+        html.Div([
+            html.H3('Exploratory Data Analysis'),
+            html.Label('Feature 1 (X-axis)'),
+            dcc.Dropdown(
+                id='x_feature',
+                options=[{'label': col, 'value': col} for col in column_names],
+                value=column_names[0]
+            )
+        ], style={'width': '30%', 'display': 'inline-block', 'vertical-align': 'top'}),
+
+        html.Div([
+            html.Label('Feature 2 (Y-axis)'),
+            dcc.Dropdown(
+                id='y_feature',
+                options=[{'label': col, 'value': col} for col in column_names],
+                value=column_names[1]
+            )
+        ], style={'width': '30%', 'display': 'inline-block', 'vertical-align': 'top'}),
 
         dcc.Graph(id='correlation_plot'),
 
-        # Wine quality prediction based on input feature values
         html.H3("Wine Quality Prediction"),
 
-        html.Div(
-            style={'display': 'inline-block',
-                   'text-align': 'left', 'width': '30%'},
-            children=[
-                html.Label("Fixed Acidity"),
-                dcc.Input(id='fixed_acidity', type='number', required=True),
-                html.Br(),
-                html.Label("Volatile Acidity"),
-                dcc.Input(id='volatile_acidity', type='number', required=True),
-                html.Br(),
-                html.Label("Citric Acid"),
-                dcc.Input(id='citric_acid', type='number', required=True),
-                html.Br(),
-                html.Label("Residual Sugar"),
-                dcc.Input(id='residual_sugar', type='number', required=True),
-                html.Br(),
-                html.Label("Chlorides"),
-                dcc.Input(id='chlorides', type='number', required=True),
-                html.Br(),
-                html.Label("Free Sulfur Dioxide"),
-                dcc.Input(id='free_sulfur_dioxide',
-                          type='number', required=True),
-                html.Br(),
-                html.Label("Total Sulfur Dioxide"),
-                dcc.Input(id='total_sulfur_dioxide',
-                          type='number', required=True),
-                html.Br(),
-                html.Label("Density"),
-                dcc.Input(id='density', type='number', required=True),
-                html.Br(),
-                html.Label("pH"),
-                dcc.Input(id='ph', type='number', required=True),
-                html.Br(),
-                html.Label("Sulphates"),
-                dcc.Input(id='sulphates', type='number', required=True),
-                html.Br(),
-                html.Label("Alcohol"),
-                dcc.Input(id='alcohol', type='number', required=True),
-                html.Br(),
-            ],
-        ),
+        html.Div([
+            html.Label("Fixed Acidity"),
+            dcc.Input(id='fixed_acidity', type='number', required=True),
+            html.Label("Volatile Acidity"),
+            dcc.Input(id='volatile_acidity', type='number', required=True),
+            html.Label("Citric Acid"),
+            dcc.Input(id='citric_acid', type='number', required=True),
+            html.Br(),
 
-        html.Div(style={'text-align': 'center'}, children=[
-            html.Button('Predict', id='predict-button',
-                        n_clicks=0, style={'margin-top': '10px'}),
-        ]),
+            html.Label("Residual Sugar"),
+            dcc.Input(id='residual_sugar', type='number', required=True),
+            html.Label("Chlorides"),
+            dcc.Input(id='chlorides', type='number', required=True),
+            html.Label("Free Sulfur Dioxide"),
+            dcc.Input(id='free_sulfur_dioxide', type='number', required=True),
+            html.Br(),
 
-        html.Div(style={'text-align': 'center'}, children=[
+            html.Label("Total Sulfur Dioxide"),
+            dcc.Input(id='total_sulfur_dioxide', type='number', required=True),
+            html.Label("Density"),
+            dcc.Input(id='density', type='number', required=True),
+            html.Label("pH"),
+            dcc.Input(id='ph', type='number', required=True),
+            html.Br(),
+
+            html.Label("Sulphates"),
+            dcc.Input(id='sulphates', type='number', required=True),
+            html.Label("Alcohol"),
+            dcc.Input(id='alcohol', type='number', required=True),
+            html.Br(),
+        ], style={'width': '30%', 'display': 'inline-block', 'vertical-align': 'top'}),
+
+        html.Div([
+            html.Button('Predict', id='predict-button', n_clicks=0),
             html.H4("Predicted Quality"),
             html.Div(id='prediction-output')
-        ])
-    ])
+        ], style={'width': '30%', 'display': 'inline-block', 'vertical-align': 'top'})
+    ],
+    style={'text-align': 'center', 'margin-top': '50px'}
+)
+
 
 # Define the callback to update the correlation plot
-
-
 @app.callback(
     dash.dependencies.Output('correlation_plot', 'figure'),
     [dash.dependencies.Input('x_feature', 'value'),
