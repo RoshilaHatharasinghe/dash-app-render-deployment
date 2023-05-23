@@ -36,12 +36,12 @@ logreg_model.fit(X_train, y_train)
 # y_pred = logreg_model.predict(X_test)
 
 
+# Create the Dash app
 app = dash.Dash(__name__)
-# app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 
 # Define the layout of the dashboard
 app.layout = html.Div(
-    #     style={'font-family': 'Open Sans'},
     children=[
 
         html.H1('CO544-2023 Lab 3: Wine Quality Prediction'),
@@ -55,8 +55,6 @@ app.layout = html.Div(
                 value=data.columns[0]
             )
         ], style={'width': '30%', 'display': 'inline-block'}),
-
-        html.Br(),
 
         html.Div([
             html.Label('Feature 2 (Y-axis)'),
@@ -132,6 +130,7 @@ def update_correlation_plot(x_feature, y_feature):
     fig = px.scatter(data, x=x_feature, y=y_feature, color='quality')
     fig.update_layout(title=f"Correlation between {x_feature} and {y_feature}")
     return fig
+
 # Define the callback function to predict wine quality
 
 
@@ -168,4 +167,3 @@ def predict_quality(n_clicks, fixed_acidity, volatile_acidity, citric_acid, resi
 
 if __name__ == '__main__':
     app.run_server(debug=False)
-# Define the callback to update the correlation plot
