@@ -70,54 +70,39 @@ app.layout = html.Div(
         # Wine quality prediction based on input feature values
         html.H3("Wine Quality Prediction"),
         html.Div([
-            html.Label("Fixed Acidity", html.Span("30")),
+            html.Label("Fixed Acidity"),
             dcc.Input(id='fixed_acidity', type='number', required=True),
-
-            html.Br(),
-            html.Label("Volatile Acidity", html.Span("30")),
+            html.Label("Volatile Acidity"),
             dcc.Input(id='volatile_acidity', type='number', required=True),
-
-            html.Br(),
-            html.Label("Citric Acid", html.Span("30")),
+            html.Label("Citric Acid"),
             dcc.Input(id='citric_acid', type='number', required=True),
             html.Br(),
 
-            html.Label("Residual Sugar", html.Span("30")),
+            html.Label("Residual Sugar"),
             dcc.Input(id='residual_sugar', type='number', required=True),
-            html.Br(),
-
-            html.Label("Chlorides", html.Span("30")),
+            html.Label("Chlorides"),
             dcc.Input(id='chlorides', type='number', required=True),
-            html.Br(),
-
-            html.Label("Free Sulfur Dioxide", html.Span("30")),
+            html.Label("Free Sulfur Dioxide"),
             dcc.Input(id='free_sulfur_dioxide', type='number', required=True),
             html.Br(),
 
-            html.Label("Total Sulfur Dioxide", html.Span("30")),
+            html.Label("Total Sulfur Dioxide"),
             dcc.Input(id='total_sulfur_dioxide', type='number', required=True),
-            html.Br(),
-
-            html.Label("Density", html.Span("30")),
+            html.Label("Density"),
             dcc.Input(id='density', type='number', required=True),
-            html.Br(),
-
-            html.Label("pH", html.Span("30")),
+            html.Label("pH"),
             dcc.Input(id='ph', type='number', required=True),
             html.Br(),
 
-            html.Label("Sulphates", html.Span("30")),
+            html.Label("Sulphates"),
             dcc.Input(id='sulphates', type='number', required=True),
-            html.Br(),
-
-            html.Label("Alcohol", html.Span("30")),
+            html.Label("Alcohol"),
             dcc.Input(id='alcohol', type='number', required=True),
             html.Br(),
         ]),
 
         html.Div([
-            html.Button('Predict', id='predict-button', n_clicks=0, style={
-                'background-color': 'blue', 'color': 'white', 'font-size': '16px', 'padding': '10px 20px'})
+            html.Button('Predict', id='predict-button', n_clicks=0),
         ]),
 
         html.Div([
