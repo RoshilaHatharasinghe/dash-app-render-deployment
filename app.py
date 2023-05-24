@@ -40,6 +40,7 @@ logreg_model.fit(X_train, y_train)
 # external_stylesheets = ['https://fonts.googleapis.com/css2?family=Open+Sans&display=swap']
 
 app = dash.Dash(__name__)
+server = app.server
 # app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Define the layout of the dashboard
